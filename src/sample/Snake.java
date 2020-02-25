@@ -10,14 +10,15 @@ public class Snake {
     Circle head = new Circle (50, Color.RED);
     Circle body = new Circle (25, Color.CORNFLOWERBLUE);
 
-    public Snake(){
-        baseBody.add(head);
-        baseBody.add(body);
+
+    public ArrayList<Circle> getBaseBody () {
+        head.setCenterX (100);
+        head.setCenterY (100);
+        this.baseBody.add(head);
+        body.setCenterX (100);
+        body.setCenterY (100);
+        this.baseBody.add(body);
+        return baseBody;
     }
-
-    public void getDirection(){
-
-    }
-
 
 }
