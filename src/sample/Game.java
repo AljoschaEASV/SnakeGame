@@ -7,6 +7,10 @@ import javafx.stage.Stage;
 
 public class Game extends Application {
 
+    public enum direction{
+        UP, DOWN, LEFT, RIGHT
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         Pane root = new Pane();
