@@ -6,9 +6,17 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Game extends Application {
+    boolean gameOver = false;
 
     public enum direction{
         UP, DOWN, LEFT, RIGHT
+    }
+
+    public void gameState(){
+        boolean gameOver = false;
+        if(gameOver ){
+            //TODO implement logic. & maybe return Type.
+        }
     }
 
     @Override
@@ -21,6 +29,17 @@ public class Game extends Application {
 
 
     public static void main(String[] args) {
+
         launch(args);
     }
+
+
+
+
+
+
+
+
+
 }
+

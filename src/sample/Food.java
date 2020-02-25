@@ -1,10 +1,12 @@
 package sample;
 
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 import java.util.Random;
 
 public class Food {
+    Circle snack = new Circle (20,foodColor ());
 
 
 
@@ -23,7 +25,7 @@ public class Food {
 
     }
 
-    public static void main (String[] args) {
+    public foodSpawner(){
 
     }
 }
