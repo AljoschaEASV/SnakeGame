@@ -27,10 +27,10 @@ public class Food {
 
     }
 
-    public Circle foodSpawner(double x, double y ){
+    public Circle foodSpawner( ){
         //TODO Use Random x & y coordinates to spawn the food, though withing the bounds of the pane/Canvas.
-        x = r.nextInt (601);
-        y = r.nextInt (601);
+        int x = r.nextInt (601);
+        int y = r.nextInt (601);
 
         snack.setCenterX (x);
         snack.setCenterY (y);

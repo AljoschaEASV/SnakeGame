@@ -1,17 +1,12 @@
 package sample;
 
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -26,6 +21,7 @@ public class Game extends Application {
     GraphicsContext gc;
     Scene scene;
     int score = 0;
+    Food f;
 
 
     public enum direction {
@@ -68,6 +64,9 @@ public class Game extends Application {
          */
         s.createTranslateTransition(snakeHead);
         s.moveSnakeOnKeyPress(scene);
+        f = new Food();
+        f.foodSpawner ();
+
 
         /**
          * Animations
@@ -76,9 +75,9 @@ public class Game extends Application {
         scene.getAccelerators().put(new KeyCodeCombination(KeyCode.DOWN), new Runnable() {
             @Override
             public void run() {
-                ac.get(0).setCenterY(ac.get(0).getCenterY() + 5);
-                ac.get(1).setCenterY((ac.get(0).getCenterY()-25));
-                ac.get(1).setCenterX((ac.get(0).getCenterX()) + 5);
+                ac.get(0).setCenterY(ac.get(0).getCenterY());
+                ac.get(1).setCenterY((ac.get(0).getCenterY()-ac.get (0).getRadius () - ac.get (1).getRadius ()));
+                ac.get(1).setCenterX((ac.get(0).getCenterX()));
 
             }
         });
