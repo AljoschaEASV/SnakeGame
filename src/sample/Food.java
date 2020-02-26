@@ -15,9 +15,9 @@ public class Food {
 
 
     public Color foodColor(){
-          Random redCol = new Random();
-          Random greenCol = new Random();
-          Random blueCol = new Random();
+        Random redCol = new Random();
+        Random greenCol = new Random();
+        Random blueCol = new Random();
 
         int red  = redCol.nextInt (256);
         int green = greenCol.nextInt (256);
@@ -29,11 +29,12 @@ public class Food {
 
     public Circle foodSpawner(double x, double y ){
         //TODO Use Random x & y coordinates to spawn the food, though withing the bounds of the pane/Canvas.
-         x = r.nextInt (601);
+        x = r.nextInt (601);
         y = r.nextInt (601);
 
         snack.setCenterX (x);
         snack.setCenterY (y);
+        snack.setFill(foodColor());
 
 
         return snack;

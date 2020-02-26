@@ -1,6 +1,9 @@
 package sample;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -9,7 +12,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
+
 
 public class Game extends Application {
     //VARIABLES
@@ -38,23 +45,41 @@ public class Game extends Application {
     @Override
     public void start (Stage primaryStage) throws Exception {
 
-        Pane root = new Pane ();
-        root.setMinSize (600, 600);
+        Group root = new Group ();
+
+        //root.setMinSize (600, 600);
         vb = new VBox ();
         c = new Canvas (600, 600);
         gc = c.getGraphicsContext2D ();
-       Snake s = new Snake();
-       s.getBaseBody ();
+
+        Snake s = new Snake();
+        ArrayList<Circle> ac = s.getBaseBody();
+        Circle snakeHead = ac.get(0);
+
+
+        for (int i = 0; i <ac.size() ; i++) {
+            Circle c = ac.get(i);
+            root.getChildren().addAll(c);
+
+        }
+
+        System.out.println("Init Variables");
         root.getChildren ().addAll (vb,c);
+        System.out.println("Childs added");
 
         scene = new Scene (root);
-        scene.setFill (Color.ALICEBLUE);
+        s.createTranslateTransition(snakeHead);
+        s.moveSnakeOnKeyPress(scene);
+        scene.setFill (Color.TRANSPARENT);
+        System.out.println("Scene filled");
+
 
 
 
         primaryStage.setTitle ("Snake");
         primaryStage.setScene (scene);
         primaryStage.show ();
+        System.out.println("Stage showed");
     }
 
     public direction getKeyDirect () {
@@ -74,6 +99,33 @@ public class Game extends Application {
         });
         return dir;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         public static void main (String[]args){
