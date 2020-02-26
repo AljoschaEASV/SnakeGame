@@ -1,17 +1,21 @@
 package sample;
 
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+
+import static javafx.scene.input.KeyCode.*;
 
 
 public class Game extends Application {
@@ -23,9 +27,11 @@ public class Game extends Application {
     int score = 0;
     Food f;
 
+    Timeline movement;
+    private Object KeyCode;
 
-    public enum direction {
-        UP, DOWN, LEFT, RIGHT
+    public static void main (String[] args) {
+        launch (args);
     }
 
     public void gameState () {
@@ -38,94 +44,93 @@ public class Game extends Application {
 
     @Override
     public void start (Stage primaryStage) throws Exception {
-        Group root = new Group();
-        c = new Canvas(600, 600);
-        gc = c.getGraphicsContext2D();
+        Group root = new Group ();
+        c = new Canvas (600, 600);
+        gc = c.getGraphicsContext2D ();
 
         /**
          * Building the Snake and append it to the group to put it into the scene.
          */
-        Snake s = new Snake();
-        ArrayList<Circle> ac = s.getBaseBody();
-        Circle snakeHead = ac.get(0);
-        for (int i = 0; i < ac.size(); i++) {
-            Circle c = ac.get(i);
-            root.getChildren().addAll(c);
+        Snake s = new Snake ();
+        ArrayList<Circle> ac = s.getBaseBody ();
+        Circle snakeHead = ac.get (0);
+        Circle snakeBody = ac.get (1);
+
+        for (int i = 0; i < ac.size (); i++) {
+            Circle c = ac.get (i);
+            root.getChildren ().addAll (c);
         }
 
         /**
          * Building an showing the scene
          */
-        root.getChildren().addAll(c);
-        scene = new Scene(root);
+        root.getChildren ().addAll (c);
+        scene = new Scene (root);
 
         /**
          * Calling the directions for the Snake
          */
-        s.createTranslateTransition(snakeHead);
-        s.moveSnakeOnKeyPress(scene);
-        f = new Food();
+        s.createTranslateTransition (snakeHead);
+        f = new Food ();
         f.foodSpawner ();
 
 
         /**
-         * Animations
+         * Idea for the Movement like an Array: Get the Radius from the foreGoing Body Part (which is appended to the head)
+         * Depending the Size from the snake itself, take the Radius from the foregoing bodyPart and move it by the amount
+         * TODO Logic for the Correct Movement, like deleting the the Head and put it into a new Place.
+         * TODO How to get the direction into an Animation?
          * @param args
          */
-        scene.getAccelerators().put(new KeyCodeCombination(KeyCode.DOWN), new Runnable() {
-            @Override
-            public void run() {
-                ac.get(0).setCenterY(ac.get(0).getCenterY());
-                ac.get(1).setCenterY((ac.get(0).getCenterY()-ac.get (0).getRadius () - ac.get (1).getRadius ()));
-                ac.get(1).setCenterX((ac.get(0).getCenterX()));
 
+        scene.setOnKeyPressed (new EventHandler<KeyEvent> () {
+            @Override
+            public void handle (KeyEvent event) {
+
+                scene.getAccelerators ().put (new KeyCodeCombination (DOWN), () -> {
+                    snakeHead.setCenterY (snakeHead.getCenterY () + 5);
+                    snakeHead.setCenterX (snakeHead.getCenterX ());
+                    snakeBody.setCenterY ((snakeHead.getCenterY () - snakeHead.getRadius () - snakeBody.getRadius ()));
+                    snakeBody.setCenterX ((snakeHead.getCenterX ()));
+                })
+                ;
+                scene.getAccelerators ().put (new KeyCodeCombination (UP), () -> {
+                    snakeHead.setCenterY (snakeHead.getCenterY () - 5);
+                    snakeHead.setCenterX (snakeHead.getCenterX ());
+                    snakeBody.setCenterY ((snakeHead.getCenterY () + snakeHead.getRadius () + snakeBody.getRadius ()));
+                    snakeBody.setCenterX ((snakeHead.getCenterX ()));
+                })
+                ;
+                scene.getAccelerators ().put (new KeyCodeCombination (LEFT), () -> {
+                    snakeHead.setCenterY (snakeHead.getCenterY ());
+                    snakeHead.setCenterX (snakeHead.getCenterX () - 5);
+                    snakeBody.setCenterY ((snakeHead.getCenterY ()));
+                    snakeBody.setCenterX ((snakeHead.getCenterX () + snakeHead.getRadius () + snakeBody.getRadius ()));
+                })
+                ;
+                scene.getAccelerators ().put (new KeyCodeCombination (RIGHT), () -> {
+                    snakeHead.setCenterY (snakeHead.getCenterY ());
+                    snakeHead.setCenterX (snakeHead.getCenterX () + 5);
+                    snakeBody.setCenterY ((snakeHead.getCenterY ()));
+                    snakeBody.setCenterX ((snakeHead.getCenterX () - snakeHead.getRadius () - snakeBody.getRadius ()));
+                })
+                ;
             }
         });
+
 
         /**
          * Setting and showing the Scene/Stage
          */
-        scene.setFill(Color.TRANSPARENT);
-        primaryStage.setTitle("Snake");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
-
+        scene.setFill (Color.TRANSPARENT);
+        primaryStage.setTitle ("Snake");
+        primaryStage.setScene (scene);
+        primaryStage.show ();
     }
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //The Enum Idea for Direction.
+//The Enum Idea for Direction.
     /* public direction getKeyDirect () {
         scene.addEventFilter (KeyEvent.KEY_PRESSED, key -> {
             if (key.getCode () == KeyCode.W) {
@@ -148,11 +153,5 @@ public class Game extends Application {
 
     */
 
-
-
-        public static void main (String[]args){ launch (args); }
-
-
-    }
 
 

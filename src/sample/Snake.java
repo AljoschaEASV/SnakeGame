@@ -3,8 +3,6 @@ package sample;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
@@ -59,9 +57,8 @@ public class Snake {
      * Taking the Scene and writing the
      * @param scene
      */
-    public void moveSnakeOnKeyPress(Scene scene) {
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override public void handle(KeyEvent event) {
+    /*public void moveSnakeOnKeyPress(Scene scene) {
+
                 switch (event.getCode()) {
                     case UP:
                         head.setCenterY(head.getCenterY() - MOVEMENT_RANGE);
@@ -85,6 +82,8 @@ public class Snake {
             }
         });
 
+     */
+
     }
 
-}
+
