@@ -15,10 +15,14 @@ public class Snake {
     ArrayList<Circle> baseBody = new ArrayList<Circle> ();
     Circle head = new Circle (25, Color.ORCHID);
     Circle body = new Circle (15, Color.CORNFLOWERBLUE);
-    private static final int      KEYBOARD_MOVEMENT_DELTA = 2;
+    private static final int   MOVEMENT_RANGE = 5;
     private static final Duration TRANSLATE_DURATION      = Duration.seconds(2);
 
 
+    /**
+     * Builds the base Body for the Snake.
+     * @return
+     */
     public ArrayList<Circle> getBaseBody () {
         head.setCenterX (200);
         head.setCenterY (200);
@@ -29,6 +33,11 @@ public class Snake {
         return baseBody;
     }
 
+    /**
+     *
+     * @param circle gets the Snake body.
+     * @return
+     */
     public TranslateTransition createTranslateTransition(final Circle circle) {
         final TranslateTransition transition = new TranslateTransition(TRANSLATE_DURATION, circle);
         transition.setOnFinished(new EventHandler<ActionEvent>() {
@@ -45,30 +54,33 @@ public class Snake {
         });
         return transition;
     }
+
+    /**
+     * Taking the Scene and writing the
+     * @param scene
+     */
     public void moveSnakeOnKeyPress(Scene scene) {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override public void handle(KeyEvent event) {
                 switch (event.getCode()) {
                     case UP:
-                        head.setCenterY(head.getCenterY() - KEYBOARD_MOVEMENT_DELTA);
-                        body.setCenterY(body.getCenterY() - KEYBOARD_MOVEMENT_DELTA);
+                        head.setCenterY(head.getCenterY() - MOVEMENT_RANGE);
+                        body.setCenterY(body.getCenterY() - MOVEMENT_RANGE);
                         break;
                     case RIGHT:
-                        head.setCenterX(head.getCenterX() + KEYBOARD_MOVEMENT_DELTA);
-                        body.setCenterX(body.getCenterX() + KEYBOARD_MOVEMENT_DELTA);
+                        head.setCenterX(head.getCenterX() + MOVEMENT_RANGE);
+                        body.setCenterX(body.getCenterX() + MOVEMENT_RANGE);
 
                         break;
                     case DOWN:
-                        head.setCenterY(head.getCenterY() + KEYBOARD_MOVEMENT_DELTA);
-                        body.setCenterY(body.getCenterY() + KEYBOARD_MOVEMENT_DELTA);
+
 
                     break;
                     case LEFT:
-                        head.setCenterX(head.getCenterX() - KEYBOARD_MOVEMENT_DELTA);
-                        body.setCenterX(body.getCenterX() - KEYBOARD_MOVEMENT_DELTA);
+                        head.setCenterX(head.getCenterX() - MOVEMENT_RANGE);
+                        body.setCenterX(body.getCenterX() - MOVEMENT_RANGE);
 
                     break;
-
                 }
             }
         });

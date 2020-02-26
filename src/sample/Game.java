@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -21,11 +22,8 @@ import java.util.ArrayList;
 public class Game extends Application {
     //VARIABLES
     boolean gameOver = false;
-    direction dir = direction.LEFT;
     Canvas c = new Canvas ();
     GraphicsContext gc;
-
-    VBox vb = new VBox ();
     Scene scene;
     int score = 0;
 
@@ -44,45 +42,92 @@ public class Game extends Application {
 
     @Override
     public void start (Stage primaryStage) throws Exception {
+        Group root = new Group();
+        c = new Canvas(600, 600);
+        gc = c.getGraphicsContext2D();
 
-        Group root = new Group ();
-
-        //root.setMinSize (600, 600);
-        vb = new VBox ();
-        c = new Canvas (600, 600);
-        gc = c.getGraphicsContext2D ();
-
+        /**
+         * Building the Snake and append it to the group to put it into the scene.
+         */
         Snake s = new Snake();
         ArrayList<Circle> ac = s.getBaseBody();
         Circle snakeHead = ac.get(0);
-
-
-        for (int i = 0; i <ac.size() ; i++) {
+        for (int i = 0; i < ac.size(); i++) {
             Circle c = ac.get(i);
             root.getChildren().addAll(c);
-
         }
 
-        System.out.println("Init Variables");
-        root.getChildren ().addAll (vb,c);
-        System.out.println("Childs added");
+        /**
+         * Building an showing the scene
+         */
+        root.getChildren().addAll(c);
+        scene = new Scene(root);
 
-        scene = new Scene (root);
+        /**
+         * Calling the directions for the Snake
+         */
         s.createTranslateTransition(snakeHead);
         s.moveSnakeOnKeyPress(scene);
-        scene.setFill (Color.TRANSPARENT);
-        System.out.println("Scene filled");
+
+        /**
+         * Animations
+         * @param args
+         */
+        scene.getAccelerators().put(new KeyCodeCombination(KeyCode.DOWN), new Runnable() {
+            @Override
+            public void run() {
+                ac.get(0).setCenterY(ac.get(0).getCenterY() + 5);
+                ac.get(1).setCenterY((ac.get(0).getCenterY()-25));
+                ac.get(1).setCenterX((ac.get(0).getCenterX()) + 5);
+
+            }
+        });
+
+        /**
+         * Setting and showing the Scene/Stage
+         */
+        scene.setFill(Color.TRANSPARENT);
+        primaryStage.setTitle("Snake");
+        primaryStage.setScene(scene);
+        primaryStage.show();
 
 
-
-
-        primaryStage.setTitle ("Snake");
-        primaryStage.setScene (scene);
-        primaryStage.show ();
-        System.out.println("Stage showed");
     }
 
-    public direction getKeyDirect () {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //The Enum Idea for Direction.
+    /* public direction getKeyDirect () {
         scene.addEventFilter (KeyEvent.KEY_PRESSED, key -> {
             if (key.getCode () == KeyCode.W) {
                 dir = direction.UP;
@@ -98,40 +143,15 @@ public class Game extends Application {
             }
         });
         return dir;
+
+
         }
 
+    */
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public static void main (String[]args){
-
-            launch (args);
-        }
+        public static void main (String[]args){ launch (args); }
 
 
     }

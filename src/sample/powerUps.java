@@ -4,6 +4,7 @@ public class powerUps {
 
     /**
      * If this is eaten. Speed up the game for 5-10Sec
+     * Taking the timeLine keyFrame
      */
     public void increaseVelocity(){
 
